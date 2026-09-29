@@ -358,8 +358,8 @@
                 <label for="attending">Will you attend?</label>
                 <select id="attending" name="attending" required>
                     <option value="">Select</option>
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
+                    <option value="yes">Yes!!!</option>
+                    <option value="no">No i hate u</option>
                 </select>
                 <label for="preferences">Alcohol Preferences:</label>
                 <select id="preferences" name="preferences" required>
@@ -438,7 +438,7 @@
             e.preventDefault();
             const attending = rsvpForm.elements.attending.value === 'yes';
             if (await sendForm(rsvpForm, rsvpBtn, rsvpStatus, 'RSVP')) {
-                setStatus(rsvpStatus, attending ? "You're in! See you there 🎉" : "Thanks for letting us know!", 'success');
+                setStatus(rsvpStatus, attending ? "lets goooooo 🎉" : "Womp womp 😔", 'success');
                 rsvpForm.reset();
             }
         });
@@ -472,9 +472,9 @@
 
         pubForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (await sendForm(pubForm, pubBtn, pubStatus, 'Send suggestion')) {
+            if (await sendForm(pubForm, pubBtn, pubStatus, 'Send it')) {
                 pubForm.reset();
-                setStatus(pubStatus, 'Cheers! Suggestion sent 🍻', 'success');
+                setStatus(pubStatus, 'thank uuuuuuuu 🍻', 'success');
                 setTimeout(() => pubModal.close(), 1800);
             }
         });
