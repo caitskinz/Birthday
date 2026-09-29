@@ -122,13 +122,15 @@
 
         button:focus-visible,
         input:focus-visible,
-        select:focus-visible {
+        select:focus-visible,
+        textarea:focus-visible {
             outline: 3px solid #dc2128;
             outline-offset: 2px;
         }
 
         input,
-        select {
+        select,
+        textarea {
             margin-top: 5px;
             padding: 8px;
             font-size: 16px; /* 16px+ prevents iOS zooming in on focus */
@@ -145,6 +147,94 @@
             font-family: 'Ranchers', cursive;
             color: #dc2128;
             letter-spacing: 1px;
+        }
+
+        .form-status {
+            text-align: center;
+            font-weight: bold;
+            margin: 14px 0 0;
+            min-height: 1.2em;
+        }
+
+        .form-status.success {
+            color: #1a7f37;
+        }
+
+        .form-status.error {
+            color: #dc2128;
+        }
+
+        textarea {
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        /* ---------- Pub suggestion modal ---------- */
+        .pub-modal {
+            width: min(92vw, 440px);
+            max-height: 90vh;
+            padding: 24px 20px 20px;
+            border: 3px solid #dc2128;
+            border-radius: 8px;
+            background-color: #fce8ed;
+            color: #000;
+            overflow-y: auto;
+        }
+
+        .pub-modal::backdrop {
+            background: rgba(0, 0, 0, 0.55);
+        }
+
+        .pub-modal[open] {
+            animation: modal-in 0.2s ease-out;
+        }
+
+        @keyframes modal-in {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pub-modal form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pub-modal .rsvp-heading {
+            margin: 0 32px 4px;
+        }
+
+        .modal-intro {
+            text-align: center;
+            margin: 0 0 4px;
+            line-height: 1.4;
+        }
+
+        /* Close button overrides the general button styles */
+        .pub-modal .modal-close {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 44px;
+            min-height: 44px;
+            margin: 0;
+            padding: 0;
+            font-size: 28px;
+            line-height: 1;
+            background: transparent;
+            color: #dc2128;
+            border: none;
+        }
+
+        @media (hover: hover) {
+            .pub-modal .modal-close:hover {
+                background: transparent;
+                transform: none;
+                color: #000;
+            }
+        }
+
+        body.modal-open {
+            overflow: hidden;
         }
 
         /* ---------- Mobile ---------- */
@@ -206,11 +296,31 @@
                 font-size: 18px;
                 padding: 14px;
             }
+
+            /* Modal slides up from the bottom like a native sheet */
+            .pub-modal {
+                width: 100%;
+                max-width: 100%;
+                max-height: 88vh;
+                margin: auto 0 0;
+                border-width: 3px 0 0;
+                border-radius: 16px 16px 0 0;
+                padding: 22px 16px calc(20px + env(safe-area-inset-bottom, 0px));
+            }
+
+            @keyframes modal-in {
+                from { transform: translateY(100%); }
+                to { transform: translateY(0); }
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
             button {
                 transition: none;
+            }
+
+            .pub-modal[open] {
+                animation: none;
             }
 
             button:hover:not(:disabled) {
@@ -228,12 +338,13 @@
                 copius amounts of alcohol.</p>
         </div>
         <div class="nav-buttons">
-            <button disabled>Course Coming Soon</button>
-            <button type="button">RSVP Someone Else</button>
+            <button disabled>⛳️ Course Coming Soon ⛳️</button>
+            <button type="button" id="open-pub-modal" aria-haspopup="dialog">🍻 Suggest a Pub 🍻</button>
         </div>
         <div class="RSVP-form">
             <h2 class="rsvp-heading">Do you want to come???</h2>
             <form>
+                <input type="hidden" name="formType" value="rsvp">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" autocomplete="name" required>
                 <label for="attending">Will you attend?</label>
@@ -253,10 +364,113 @@
                 <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" required>
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" autocomplete="email" inputmode="email" required>
-                <button type="submit">RSVP</button>
+                <button type="submit" id="submit-btn">RSVP</button>
+                <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
             </form>
         </div>
     </main>
+
+    <dialog id="pub-modal" class="pub-modal" aria-labelledby="pub-modal-title">
+        <button type="button" class="modal-close" id="close-pub-modal" aria-label="Close">&times;</button>
+        <h2 id="pub-modal-title" class="rsvp-heading">🍻 Suggest a pub 🍻</h2>
+        <p class="modal-intro">Do you have any recommendations?</p>
+        <form id="pub-form">
+            <input type="hidden" name="formType" value="pub">
+            <label for="pub-name">Pub name:</label>
+            <input type="text" id="pub-name" name="pubName" required>
+            <label for="pub-location">Where is it?</label>
+            <input type="text" id="pub-location" name="pubLocation" placeholder="Wellington???">
+            <label for="pub-reason">Why???</label>
+            <textarea id="pub-reason" name="pubReason" rows="3" placeholder="is it cool...?"></textarea>
+            <label for="pub-suggester">Who are you??</label>
+            <input type="text" id="pub-suggester" name="suggestedBy" autocomplete="name">
+            <button type="submit" id="pub-submit-btn">Send it</button>
+            <p id="pub-status" class="form-status" role="status" aria-live="polite"></p>
+        </form>
+    </dialog>
+
+    <script>
+        // Paste your Apps Script web app URL here (ends in /exec)
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwb15dNSYIPXszuOLNggrY4fYr3PM7NUVcx_o32SGCTvStXOqnt8neTZ0pbyGbEvq_GIA/exec';
+
+        // Sends a form to the Google Sheet and handles button/status updates
+        async function sendForm(form, button, statusEl, buttonLabel) {
+            button.disabled = true;
+            button.textContent = 'Sending...';
+            setStatus(statusEl, '');
+
+            try {
+                // URL-encoded body keeps this a "simple" request, so no CORS preflight
+                const body = new URLSearchParams(new FormData(form));
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body });
+                const data = await res.json();
+                if (data.result !== 'success') throw new Error(data.error || 'Unknown error');
+                return true;
+            } catch (err) {
+                console.error(err);
+                setStatus(statusEl, "That didn't go through. Check your connection and try again.", 'error');
+                return false;
+            } finally {
+                button.disabled = false;
+                button.textContent = buttonLabel;
+            }
+        }
+
+        function setStatus(el, message, type) {
+            el.textContent = message;
+            el.className = 'form-status' + (type ? ' ' + type : '');
+        }
+
+        // ----- RSVP form -----
+        const rsvpForm = document.querySelector('.RSVP-form form');
+        const rsvpBtn = document.getElementById('submit-btn');
+        const rsvpStatus = document.getElementById('form-status');
+
+        rsvpForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const attending = rsvpForm.elements.attending.value === 'yes';
+            if (await sendForm(rsvpForm, rsvpBtn, rsvpStatus, 'RSVP')) {
+                setStatus(rsvpStatus, attending ? "You're in! See you there 🎉" : "Thanks for letting us know!", 'success');
+                rsvpForm.reset();
+            }
+        });
+
+        // ----- Pub suggestion modal -----
+        const pubModal = document.getElementById('pub-modal');
+        const pubForm = document.getElementById('pub-form');
+        const pubBtn = document.getElementById('pub-submit-btn');
+        const pubStatus = document.getElementById('pub-status');
+
+        document.getElementById('open-pub-modal').addEventListener('click', () => {
+            setStatus(pubStatus, '');
+            pubModal.showModal();
+            document.body.classList.add('modal-open');
+        });
+
+        document.getElementById('close-pub-modal').addEventListener('click', () => pubModal.close());
+
+        // Tap the dark area outside the modal to close it
+        pubModal.addEventListener('click', (e) => {
+            if (e.target !== pubModal) return;
+            const r = pubModal.getBoundingClientRect();
+            const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+            if (!inside) pubModal.close();
+        });
+
+        // Runs however it closes (X, backdrop, Esc key)
+        pubModal.addEventListener('close', () => {
+            document.body.classList.remove('modal-open');
+        });
+
+        pubForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (await sendForm(pubForm, pubBtn, pubStatus, 'Send suggestion')) {
+                pubForm.reset();
+                setStatus(pubStatus, 'Cheers! Suggestion sent 🍻', 'success');
+                setTimeout(() => pubModal.close(), 1800);
+            }
+        });
+    </script>
 
 </body>
 
