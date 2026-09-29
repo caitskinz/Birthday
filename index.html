@@ -2,15 +2,31 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Birthday</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Ranchers&family=Slackey&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Ranchers&family=Slackey&display=swap"
+        rel="stylesheet">
     <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
         body {
             font-family: Arial, sans-serif;
             color: #000;
             margin: 0;
             padding: 0;
+            min-height: 100vh;
             background-image:
                 linear-gradient(45deg, #f496ba 25%, transparent 25%),
                 linear-gradient(-45deg, #f496ba 25%, transparent 25%),
@@ -21,7 +37,6 @@
             background-position: 0 0, 50px 0, 50px -50px, 0px 50px;
             background-color: #dc2128;
         }
-
 
         main {
             max-width: 500px;
@@ -35,13 +50,18 @@
             text-align: center;
             color: #dc2128;
             letter-spacing: 2px;
+            line-height: 1.15;
         }
 
         .event-description {
             text-align: center;
             background-color: #fce8ed;
-            padding: 20px;
+            padding: 5px 20px 5px 20px;
             border-radius: 8px;
+        }
+
+        .event-description p {
+            line-height: 1.5;
         }
 
         .nav-buttons {
@@ -69,14 +89,17 @@
         button {
             margin-top: 20px;
             padding: 10px;
+            min-height: 44px;
             font-size: 16px;
             background-color: #dc2128;
             color: #fff;
-            border: none;
+            border: 1px solid #fff;
             border-radius: 4px;
             cursor: pointer;
             width: 100%;
-            border: 1px solid #fff;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.15s, transform 0.15s;
         }
 
         button:disabled {
@@ -84,16 +107,37 @@
             cursor: not-allowed;
         }
 
-        button:hover:not(:disabled) {
+        /* Hover effect only on devices that actually hover (stops "sticky" hover on phones) */
+        @media (hover: hover) {
+            button:hover:not(:disabled) {
+                background-color: #f496ba;
+                transform: scale(1.05);
+            }
+        }
+
+        /* Tap feedback for touch screens */
+        button:active:not(:disabled) {
             background-color: #f496ba;
-            transform: scale(1.05);
+        }
+
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+            outline: 3px solid #dc2128;
+            outline-offset: 2px;
         }
 
         input,
         select {
             margin-top: 5px;
             padding: 8px;
-            font-size: 16px;
+            font-size: 16px; /* 16px+ prevents iOS zooming in on focus */
+            width: 100%;
+            min-height: 44px;
+            border: 1px solid #999;
+            border-radius: 4px;
+            background-color: #fff;
+            color: #000;
         }
 
         .rsvp-heading {
@@ -102,10 +146,78 @@
             color: #dc2128;
             letter-spacing: 1px;
         }
+
+        /* ---------- Mobile ---------- */
+        @media (max-width: 600px) {
+            body {
+                background-size: 36px 36px;
+                background-position: 0 0, 36px 0, 36px -36px, 0px 36px;
+            }
+
+            main {
+                margin: 0 auto;
+                padding: 16px 12px;
+                padding-top: calc(16px + env(safe-area-inset-top, 0px));
+                padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+                padding-left: calc(12px + env(safe-area-inset-left, 0px));
+                padding-right: calc(12px + env(safe-area-inset-right, 0px));
+            }
+
+            h1 {
+                font-size: clamp(1.6rem, 8vw, 2.2rem);
+                letter-spacing: 1px;
+                margin: 16px 0 8px;
+            }
+
+            .rsvp-heading {
+                font-size: clamp(1.3rem, 6.5vw, 1.6rem);
+                margin-top: 0;
+            }
+
+            .event-description {
+                padding: 4px 16px;
+            }
+
+            .event-description p {
+                font-size: 15px;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .nav-buttons button {
+                margin-top: 10px;
+            }
+
+            .RSVP-form {
+                padding: 16px;
+            }
+
+            label {
+                margin-top: 14px;
+                font-weight: bold;
+                font-size: 15px;
+            }
+
+            form button[type="submit"] {
+                margin-top: 24px;
+                font-size: 18px;
+                padding: 14px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            button {
+                transition: none;
+            }
+
+            button:hover:not(:disabled) {
+                transform: none;
+            }
+        }
     </style>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birthday</title>
 </head>
 
 <body>
@@ -117,13 +229,13 @@
         </div>
         <div class="nav-buttons">
             <button disabled>Course Coming Soon</button>
-            <button>RSVP Someone Else</button>
+            <button type="button">RSVP Someone Else</button>
         </div>
         <div class="RSVP-form">
             <h2 class="rsvp-heading">Do you want to come???</h2>
             <form>
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="name" name="name" autocomplete="name" required>
                 <label for="attending">Will you attend?</label>
                 <select id="attending" name="attending" required>
                     <option value="">Select</option>
@@ -138,11 +250,12 @@
                     <option value="Gluten Free">Gluten Free</option>
                 </select>
                 <label for="phone">Phone Number:</label>
-                <input type="tel" id="phone" name="phone" required>
+                <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" required>
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" autocomplete="email" inputmode="email" required>
                 <button type="submit">RSVP</button>
             </form>
+        </div>
     </main>
 
 </body>
