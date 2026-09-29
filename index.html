@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Ranchers&family=Slackey&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            background-image:
+                linear-gradient(45deg, #f496ba 25%, transparent 25%),
+                linear-gradient(-45deg, #f496ba 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #f496ba 75%),
+                linear-gradient(-45deg, transparent 75%, #f496ba 75%);
+
+            background-size: 50px 50px;
+            background-position: 0 0, 50px 0, 50px -50px, 0px 50px;
+            background-color: #dc2128;
+        }
+
+
+        main {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-family: 'Ranchers', cursive;
+            text-align: center;
+            color: #dc2128;
+            letter-spacing: 2px;
+        }
+
+        .event-description {
+            text-align: center;
+            background-color: #fce8ed;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .RSVP-form {
+            margin-top: 15px;
+            background-color: #fce8ed;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #dc2128;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            border: 1px solid #fff;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #f496ba;
+            transform: scale(1.05);
+        }
+
+        input,
+        select {
+            margin-top: 5px;
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        .rsvp-heading {
+            text-align: center;
+            font-family: 'Ranchers', cursive;
+            color: #dc2128;
+            letter-spacing: 1px;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday</title>
+</head>
+
+<body>
+    <main>
+        <div class="event-description">
+            <h1>Caitlin and Vic's Birthday</h1>
+            <p>Vic is turning 28 and Caitlin is turning 32.5! Celebrate with us by supporting the local economy with
+                copius amounts of alcohol.</p>
+        </div>
+        <div class="nav-buttons">
+            <button disabled>Course Coming Soon</button>
+            <button>RSVP Someone Else</button>
+        </div>
+        <div class="RSVP-form">
+            <h2 class="rsvp-heading">Do you want to come???</h2>
+            <form>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="attending">Will you attend?</label>
+                <select id="attending" name="attending" required>
+                    <option value="">Select</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+                <label for="preferences">Alcohol Preferences:</label>
+                <select id="preferences" name="preferences" required>
+                    <option value="">Select</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Sober">Sober</option>
+                    <option value="Gluten Free">Gluten Free</option>
+                </select>
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <button type="submit">RSVP</button>
+            </form>
+    </main>
+
+</body>
+
+</html>
