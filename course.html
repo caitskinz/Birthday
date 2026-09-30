@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Birthday</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Ranchers&family=Slackey&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        .Pic-1 /* Vic and Caitlin at Henry wedding */ {
+            position: fixed;
+            top: -20px;
+            left: 0;
+            width: 250px;
+            max-width: 30%;
+            height: auto;
+            border-radius: 8px;
+            transform: rotate(-190deg);
+        }
+
+        .Pic-2 /* Vic with tomato sauce */ {
+            position: fixed;
+            top: -20px;
+            right: 0;
+            width: 250px;
+            max-width: 20%;
+            height: auto;
+            border-radius: 8px;
+            transform: rotate(250deg);
+        }
+
+        .Pic-3 /* Medieval Maidens */ {
+            position: fixed;
+            top: 155px;
+            right: -140px;
+            width: 250px;
+            transform: translateX(-50%) rotate(-18deg);
+            max-width: 30%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .Pic-4 /* Girlies at Rogue */ {
+            position: fixed;
+            top: 100px;
+            right: 50%;
+            transform: translateX(50%) rotate(-10deg);
+            max-width: 30%;
+            width: 250px;
+            height: auto;
+            border-radius: 8px; 
+        }
+
+        .Pic-5 /* Caitlin at Maddy's house */ {
+            position: fixed;
+            bottom: -20px;
+            left: 0;
+            max-width: 20%;
+            width: 250px;
+            height: auto;
+            border-radius: 8px;
+            transform: rotate(10deg);
+        }
+
+        .Pic-6 /* Gals drinking wine */ {
+            position: fixed;
+            bottom: -20px;
+            right: 50%;
+            transform: translateX(50%) rotate(-10deg);
+            max-width: 30%;
+            width: 250px;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .Pic-7 /* Caitlin and Bull */ {
+           position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%) rotate(10deg);
+            max-width: 30%;
+            width: 250px;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .Pic-8 /* Princess Victoria */ {
+            position: fixed;
+            bottom: 100px;
+            left: 10%;
+            transform: translateX(-50%) rotate(10deg);
+            max-width: 30%;
+            width: 250px;
+            height: auto;
+            border-radius: 8px; 
+        }
+
+        .Pic-9 /* Caitlin being weird */ {
+            position: fixed;
+            bottom: 10px;
+            right: 2%;
+            transform: translateX(50%) rotate(-10deg);
+            max-width: 30%;
+            width: 250px;
+            height: auto;
+            border-radius: 8px; 
+        }
+
+        .Pic-10 /* Vic unimpressed */ {
+            position: fixed;
+            bottom: -20px;
+            right: 0;
+            max-width: 20%;
+            width: 250px;
+            height: auto;
+            border-radius: 8px;
+            transform: rotate(-10deg);
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-image:
+                linear-gradient(45deg, #f496ba 25%, transparent 25%),
+                linear-gradient(-45deg, #f496ba 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #f496ba 75%),
+                linear-gradient(-45deg, transparent 75%, #f496ba 75%);
+
+            background-size: 50px 50px;
+            background-position: 0 0, 50px 0, 50px -50px, 0px 50px;
+            background-color: #dc2128;
+        }
+
+        main {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-family: 'Ranchers', cursive;
+            text-align: center;
+            color: #dc2128;
+            letter-spacing: 2px;
+            line-height: 1.15;
+        }
+
+        .event-description {
+            text-align: center;
+            background-color: #fce8ed;
+            padding: 5px 20px 5px 20px;
+            border-radius: 8px;
+        }
+
+        .event-description p {
+            line-height: 1.5;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .RSVP-form {
+            margin-top: 15px;
+            background-color: #fce8ed;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            min-height: 44px;
+            font-size: 16px;
+            background-color: #dc2128;
+            color: #fff;
+            border: 1px solid #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.15s, transform 0.15s;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Hover effect only on devices that actually hover (stops "sticky" hover on phones) */
+        @media (hover: hover) {
+            button:hover:not(:disabled) {
+                background-color: #f496ba;
+                transform: scale(1.05);
+            }
+        }
+
+        /* Tap feedback for touch screens */
+        button:active:not(:disabled) {
+            background-color: #f496ba;
+        }
+
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible {
+            outline: 3px solid #dc2128;
+            outline-offset: 2px;
+        }
+
+        input,
+        select,
+        textarea {
+            margin-top: 5px;
+            padding: 8px;
+            font-size: 16px; /* 16px+ prevents iOS zooming in on focus */
+            width: 100%;
+            min-height: 44px;
+            border: 1px solid #999;
+            border-radius: 4px;
+            background-color: #fff;
+            color: #000;
+        }
+
+        .rsvp-heading {
+            text-align: center;
+            font-family: 'Ranchers', cursive;
+            color: #dc2128;
+            letter-spacing: 1px;
+        }
+
+        .form-status {
+            text-align: center;
+            font-weight: bold;
+            margin: 14px 0 0;
+            min-height: 1.2em;
+        }
+
+        .form-status.success {
+            color: #1a7f37;
+        }
+
+        .form-status.error {
+            color: #dc2128;
+        }
+
+        textarea {
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        /* ---------- Pub suggestion modal ---------- */
+        .pub-modal {
+            width: min(92vw, 440px);
+            max-height: 90vh;
+            padding: 24px 20px 20px;
+            border: 3px solid #dc2128;
+            border-radius: 8px;
+            background-color: #fce8ed;
+            color: #000;
+            overflow-y: auto;
+        }
+
+        .pub-modal::backdrop {
+            background: rgba(0, 0, 0, 0.55);
+        }
+
+        .pub-modal[open] {
+            animation: modal-in 0.2s ease-out;
+        }
+
+        @keyframes modal-in {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pub-modal form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pub-modal .rsvp-heading {
+            margin: 0 32px 4px;
+        }
+
+        .modal-intro {
+            text-align: center;
+            margin: 0 0 4px;
+            line-height: 1.4;
+        }
+
+        /* Close button overrides the general button styles */
+        .pub-modal .modal-close {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 44px;
+            min-height: 44px;
+            margin: 0;
+            padding: 0;
+            font-size: 28px;
+            line-height: 1;
+            background: transparent;
+            color: #dc2128;
+            border: none;
+        }
+
+        @media (hover: hover) {
+            .pub-modal .modal-close:hover {
+                background: transparent;
+                transform: none;
+                color: #000;
+            }
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* ---------- Mobile ---------- */
+        @media (max-width: 600px) {
+            body {
+                background-size: 36px 36px;
+                background-position: 0 0, 36px 0, 36px -36px, 0px 36px;
+            }
+
+            main {
+                margin: 0 auto;
+                padding: 16px 12px;
+                padding-top: calc(16px + env(safe-area-inset-top, 0px));
+                padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+                padding-left: calc(12px + env(safe-area-inset-left, 0px));
+                padding-right: calc(12px + env(safe-area-inset-right, 0px));
+            }
+
+            h1 {
+                font-size: clamp(1.6rem, 8vw, 2.2rem);
+                letter-spacing: 1px;
+                margin: 16px 0 8px;
+            }
+
+            .rsvp-heading {
+                font-size: clamp(1.3rem, 6.5vw, 1.6rem);
+                margin-top: 0;
+            }
+
+            .event-description {
+                padding: 4px 16px;
+            }
+
+            .event-description p {
+                font-size: 15px;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .nav-buttons button {
+                margin-top: 10px;
+            }
+
+            .RSVP-form {
+                padding: 16px;
+            }
+
+            label {
+                margin-top: 14px;
+                font-weight: bold;
+                font-size: 15px;
+            }
+
+            form button[type="submit"] {
+                margin-top: 24px;
+                font-size: 18px;
+                padding: 14px;
+            }
+
+            /* Modal slides up from the bottom like a native sheet */
+            .pub-modal {
+                width: 100%;
+                max-width: 100%;
+                max-height: 88vh;
+                margin: auto 0 0;
+                border-width: 3px 0 0;
+                border-radius: 16px 16px 0 0;
+                padding: 22px 16px calc(20px + env(safe-area-inset-bottom, 0px));
+            }
+
+            @keyframes modal-in {
+                from { transform: translateY(100%); }
+                to { transform: translateY(0); }
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            button {
+                transition: none;
+            }
+
+            .pub-modal[open] {
+                animation: none;
+            }
+
+            button:hover:not(:disabled) {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body><img src="https://raw.githubusercontent.com/caitskinz/Birthday/refs/heads/main/Viclin1.png" class="Pic-1" alt="Caitli and vic at henry wedding">
+    <img src="https://raw.githubusercontent.com/caitskinz/Birthday/refs/heads/main/Viclin2.png" class="Pic-2" alt="Vic with tomato sauce">
+    <img src="https://raw.githubusercontent.com/caitskinz/Birthday/refs/heads/main/Viclin3.png" class="Pic-3" alt="Medieval Maidens">
+    <img src="https://raw.githubusercontent.com/caitskinz/Birthday/refs/heads/main/Viclin4.png" class="Pic-4" alt="Girlies at Rogue">
+    <img src="https://raw.githubusercontent.com/caitskinz/Birthday/refs/heads/main/Viclin5.png" class="Pic-5" alt="Caitlin at Maddy's house">
+    <img src="https://raw.githubusercontent.com/caitskinz/Birthday/refs/heads/main/Viclin6.png" class="Pic-6" alt="Gals drinking wine">
+    <img src="https://raw.githubusercontent.com/caitskinz/Birthday/refs/heads/main/Viclin7.png" class="Pic-7" alt="Caitlin and bull">
+    <img src="https://raw.githubusercontent.com/caitskinz/Birthday/refs/heads/main/Viclin8.png" class="Pic-8" alt="Princess Victoria">
+    <img src="https://raw.githubusercontent.com/caitskinz/Birthday/refs/heads/main/Viclin9.png" class="Pic-9" alt="Caitlin being weird">
+    <img src="https://raw.githubusercontent.com/caitskinz/Birthday/refs/heads/main/Viclin10.png" class="Pic-10" alt="Vic unimpressed">
+    <main>
+        <div class="event-description">
+            <h1>What is pub golf?</h1>
+            <p>It's like golf except with alcohol instead of balls.</p>
+            <p><b>HOW DO YOU PLAY?</b><br>
+                Each pub is a "hole" and has a "par".<br>
+                Par is the number of sips you need to finish the drink.<br>
+                If you don't finish, you get a penalty stroke.</p>
+            </p>
+            <p><b>DETAILS</b><br>
+                WHEN: Saturday 14 November<br>
+                TIME: 3pm until wee hours<br>
+                WHERE: havent decided yet but multiple locations</p>
+                <p>Plz rsvp so we can warn Courtenay Place</>
+        </div>
+        <div class="nav-buttons">
+            <button disabled>⛳️ Course Coming Soon ⛳️</button>
+            <button type="button" id="open-pub-modal" aria-haspopup="dialog">🍻 Suggest a Pub 🍻</button>
+        </div>
+        <div class="RSVP-form">
+            <h2 class="rsvp-heading">Do you want to come???</h2>
+            <form>
+                <input type="hidden" name="formType" value="rsvp">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" autocomplete="name" required>
+                <label for="attending">Will you attend?</label>
+                <select id="attending" name="attending" required>
+                    <option value="">Select</option>
+                    <option value="yes">Yes!!!</option>
+                    <option value="no">No i hate u</option>
+                </select>
+                <label for="preferences">Alcohol Preferences:</label>
+                <select id="preferences" name="preferences" required>
+                    <option value="">Select</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Sober">Sober</option>
+                    <option value="Gluten Free">Gluten Free</option>
+                </select>
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" autocomplete="email" inputmode="email" required>
+                <button type="submit" id="submit-btn">RSVP</button>
+                <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+            </form>
+        </div>
+    </main>
+
+    <dialog id="pub-modal" class="pub-modal" aria-labelledby="pub-modal-title">
+        <button type="button" class="modal-close" id="close-pub-modal" aria-label="Close">&times;</button>
+        <h2 id="pub-modal-title" class="rsvp-heading">🍻 Suggest a pub 🍻</h2>
+        <p class="modal-intro">Do you have any recommendations?</p>
+        <form id="pub-form">
+            <input type="hidden" name="formType" value="pub">
+            <label for="pub-name">Pub name:</label>
+            <input type="text" id="pub-name" name="pubName" required>
+            <label for="pub-location">Where is it?</label>
+            <input type="text" id="pub-location" name="pubLocation" placeholder="Wellington???">
+            <label for="pub-reason">Why???</label>
+            <textarea id="pub-reason" name="pubReason" rows="3" placeholder="is it cool...?"></textarea>
+            <label for="pub-suggester">Who are you??</label>
+            <input type="text" id="pub-suggester" name="suggestedBy" autocomplete="name">
+            <button type="submit" id="pub-submit-btn">Send it</button>
+            <p id="pub-status" class="form-status" role="status" aria-live="polite"></p>
+        </form>
+    </dialog>
+
+    <script>
+        // Paste your Apps Script web app URL here (ends in /exec)
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwb15dNSYIPXszuOLNggrY4fYr3PM7NUVcx_o32SGCTvStXOqnt8neTZ0pbyGbEvq_GIA/exec';
+
+        // Sends a form to the Google Sheet and handles button/status updates
+        async function sendForm(form, button, statusEl, buttonLabel) {
+            button.disabled = true;
+            button.textContent = 'Sending...';
+            setStatus(statusEl, '');
+
+            try {
+                // URL-encoded body keeps this a "simple" request, so no CORS preflight
+                const body = new URLSearchParams(new FormData(form));
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body });
+                const data = await res.json();
+                if (data.result !== 'success') throw new Error(data.error || 'Unknown error');
+                return true;
+            } catch (err) {
+                console.error(err);
+                setStatus(statusEl, "That didn't go through. Check your connection and try again.", 'error');
+                return false;
+            } finally {
+                button.disabled = false;
+                button.textContent = buttonLabel;
+            }
+        }
+
+        function setStatus(el, message, type) {
+            el.textContent = message;
+            el.className = 'form-status' + (type ? ' ' + type : '');
+        }
+
+        // ----- RSVP form -----
+        const rsvpForm = document.querySelector('.RSVP-form form');
+        const rsvpBtn = document.getElementById('submit-btn');
+        const rsvpStatus = document.getElementById('form-status');
+
+        rsvpForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const attending = rsvpForm.elements.attending.value === 'yes';
+            if (await sendForm(rsvpForm, rsvpBtn, rsvpStatus, 'RSVP')) {
+                setStatus(rsvpStatus, attending ? "lets goooooo 🎉" : "Womp womp 😔", 'success');
+                rsvpForm.reset();
+            }
+        });
+
+        // ----- Pub suggestion modal -----
+        const pubModal = document.getElementById('pub-modal');
+        const pubForm = document.getElementById('pub-form');
+        const pubBtn = document.getElementById('pub-submit-btn');
+        const pubStatus = document.getElementById('pub-status');
+
+        document.getElementById('open-pub-modal').addEventListener('click', () => {
+            setStatus(pubStatus, '');
+            pubModal.showModal();
+            document.body.classList.add('modal-open');
+        });
+
+        document.getElementById('close-pub-modal').addEventListener('click', () => pubModal.close());
+
+        // Tap the dark area outside the modal to close it
+        pubModal.addEventListener('click', (e) => {
+            if (e.target !== pubModal) return;
+            const r = pubModal.getBoundingClientRect();
+            const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+            if (!inside) pubModal.close();
+        });
+
+        // Runs however it closes (X, backdrop, Esc key)
+        pubModal.addEventListener('close', () => {
+            document.body.classList.remove('modal-open');
+        });
+
+        pubForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (await sendForm(pubForm, pubBtn, pubStatus, 'Send it')) {
+                pubForm.reset();
+                setStatus(pubStatus, 'thank uuuuuuuu 🍻', 'success');
+                setTimeout(() => pubModal.close(), 1800);
+            }
+        });
+    </script>
+
+</body>
+
+</html>
