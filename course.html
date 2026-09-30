@@ -17,7 +17,7 @@
         }
 
         .Pic-1 /* Vic and Caitlin at Henry wedding */ {
-            position: fixed;
+            position: absolute;
             top: -20px;
             left: 0;
             width: 250px;
@@ -25,23 +25,24 @@
             height: auto;
             border-radius: 8px;
             transform: rotate(-190deg);
+            
         }
 
         .Pic-2 /* Vic with tomato sauce */ {
-            position: fixed;
-            top: -20px;
+            position: absolute;
+            top: -30px;
             right: 0;
             width: 250px;
             max-width: 20%;
             height: auto;
             border-radius: 8px;
-            transform: rotate(250deg);
+            transform: rotate(230deg);
         }
 
         .Pic-3 /* Medieval Maidens */ {
-            position: fixed;
+            position: absolute;
             top: 155px;
-            right: -140px;
+            right: -100px;
             width: 250px;
             transform: translateX(-50%) rotate(-18deg);
             max-width: 30%;
@@ -50,18 +51,18 @@
         }
 
         .Pic-4 /* Girlies at Rogue */ {
-            position: fixed;
+            position: absolute;
             top: 100px;
-            right: 50%;
-            transform: translateX(50%) rotate(-10deg);
-            max-width: 30%;
-            width: 250px;
+            left: -90px;
+            transform: translateX(50%) rotate(25deg);
+            max-width: 25%;
+            width: 200px;
             height: auto;
             border-radius: 8px; 
         }
 
         .Pic-5 /* Caitlin at Maddy's house */ {
-            position: fixed;
+            position: absolute;
             bottom: -20px;
             left: 0;
             max-width: 20%;
@@ -72,7 +73,7 @@
         }
 
         .Pic-6 /* Gals drinking wine */ {
-            position: fixed;
+            position: absolute;
             bottom: -20px;
             right: 50%;
             transform: translateX(50%) rotate(-10deg);
@@ -83,7 +84,7 @@
         }
 
         .Pic-7 /* Caitlin and Bull */ {
-           position: fixed;
+           position: absolute;
             top: 100px;
             left: 50%;
             transform: translateX(-50%) rotate(10deg);
@@ -94,7 +95,7 @@
         }
 
         .Pic-8 /* Princess Victoria */ {
-            position: fixed;
+            position: absolute;
             bottom: 100px;
             left: 10%;
             transform: translateX(-50%) rotate(10deg);
@@ -105,7 +106,7 @@
         }
 
         .Pic-9 /* Caitlin being weird */ {
-            position: fixed;
+            position: absolute;
             bottom: 10px;
             right: 2%;
             transform: translateX(50%) rotate(-10deg);
@@ -116,7 +117,7 @@
         }
 
         .Pic-10 /* Vic unimpressed */ {
-            position: fixed;
+            position: absolute;
             bottom: -20px;
             right: 0;
             max-width: 20%;
@@ -137,6 +138,7 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
+            overflow-x: hidden;
             background-image:
                 linear-gradient(45deg, #f496ba 25%, transparent 25%),
                 linear-gradient(-45deg, #f496ba 25%, transparent 25%),
@@ -168,6 +170,7 @@
             background-color: #fce8ed;
             padding: 5px 20px 5px 20px;
             border-radius: 8px;
+            margin: 15px;
         }
 
         .event-description p {
@@ -185,6 +188,7 @@
             background-color: #fce8ed;
             padding: 20px;
             border-radius: 8px;
+            margin: 15px;
         }
 
         form {
