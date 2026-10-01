@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Birthday</title>
+    <title>Caitlin and Vic's Birthday - The Course</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Ranchers&family=Slackey&display=swap"
@@ -52,13 +52,13 @@
 
         .Pic-4 /* Girlies at Rogue */ {
             position: absolute;
-            top: 100px;
-            left: -90px;
-            transform: translateX(50%) rotate(25deg);
-            max-width: 25%;
-            width: 200px;
+            bottom: -20px;
+            right: 0;
+            max-width: 20%;
+            width: 250px;
             height: auto;
-            border-radius: 8px; 
+            border-radius: 8px;
+            transform: rotate(-10deg);
         }
 
         .Pic-5 /* Caitlin at Maddy's house */ {
@@ -84,7 +84,8 @@
         }
 
         .Pic-7 /* Caitlin and Bull */ {
-           position: absolute;
+            display: none;
+            position: absolute;
             top: 100px;
             left: 50%;
             transform: translateX(-50%) rotate(10deg);
@@ -96,8 +97,8 @@
 
         .Pic-8 /* Princess Victoria */ {
             position: absolute;
-            bottom: 100px;
-            left: 10%;
+            bottom: 180px;
+            left: 4%;
             transform: translateX(-50%) rotate(10deg);
             max-width: 30%;
             width: 250px;
@@ -107,8 +108,8 @@
 
         .Pic-9 /* Caitlin being weird */ {
             position: absolute;
-            bottom: 10px;
-            right: 2%;
+            bottom: 100px;
+            right: 1px;
             transform: translateX(50%) rotate(-10deg);
             max-width: 30%;
             width: 250px;
@@ -118,13 +119,14 @@
 
         .Pic-10 /* Vic unimpressed */ {
             position: absolute;
-            bottom: -20px;
-            right: 0;
-            max-width: 20%;
-            width: 250px;
+            top: 100px;
+            left: -80px;
+            transform: translateX(50%) rotate(25deg);
+            max-width: 25%;
+            width: 200px;
             height: auto;
             border-radius: 8px;
-            transform: rotate(-10deg);
+            
         }
 
         html {
@@ -155,6 +157,10 @@
             margin: 50px auto;
             padding: 20px;
             border-radius: 8px;
+        }
+
+        div {
+            padding: 20px;
         }
 
         h1 {
@@ -379,7 +385,7 @@
             }
 
             .event-description {
-                padding: 4px 16px;
+                padding: 4px 20px;
             }
 
             .event-description p {
@@ -471,89 +477,6 @@
            
         </div>
     </main>
-
-    <script>
-        // Paste your Apps Script web app URL here (ends in /exec)
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwb15dNSYIPXszuOLNggrY4fYr3PM7NUVcx_o32SGCTvStXOqnt8neTZ0pbyGbEvq_GIA/exec';
-
-        // Sends a form to the Google Sheet and handles button/status updates
-        async function sendForm(form, button, statusEl, buttonLabel) {
-            button.disabled = true;
-            button.textContent = 'Sending...';
-            setStatus(statusEl, '');
-
-            try {
-                // URL-encoded body keeps this a "simple" request, so no CORS preflight
-                const body = new URLSearchParams(new FormData(form));
-                const res = await fetch(SCRIPT_URL, { method: 'POST', body });
-                const data = await res.json();
-                if (data.result !== 'success') throw new Error(data.error || 'Unknown error');
-                return true;
-            } catch (err) {
-                console.error(err);
-                setStatus(statusEl, "That didn't go through. Check your connection and try again.", 'error');
-                return false;
-            } finally {
-                button.disabled = false;
-                button.textContent = buttonLabel;
-            }
-        }
-
-        function setStatus(el, message, type) {
-            el.textContent = message;
-            el.className = 'form-status' + (type ? ' ' + type : '');
-        }
-
-        // ----- RSVP form -----
-        const rsvpForm = document.querySelector('.RSVP-form form');
-        const rsvpBtn = document.getElementById('submit-btn');
-        const rsvpStatus = document.getElementById('form-status');
-
-        rsvpForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const attending = rsvpForm.elements.attending.value === 'yes';
-            if (await sendForm(rsvpForm, rsvpBtn, rsvpStatus, 'RSVP')) {
-                setStatus(rsvpStatus, attending ? "lets goooooo 🎉" : "Womp womp 😔", 'success');
-                rsvpForm.reset();
-            }
-        });
-
-        // ----- Pub suggestion modal -----
-        const pubModal = document.getElementById('pub-modal');
-        const pubForm = document.getElementById('pub-form');
-        const pubBtn = document.getElementById('pub-submit-btn');
-        const pubStatus = document.getElementById('pub-status');
-
-        document.getElementById('open-pub-modal').addEventListener('click', () => {
-            setStatus(pubStatus, '');
-            pubModal.showModal();
-            document.body.classList.add('modal-open');
-        });
-
-        document.getElementById('close-pub-modal').addEventListener('click', () => pubModal.close());
-
-        // Tap the dark area outside the modal to close it
-        pubModal.addEventListener('click', (e) => {
-            if (e.target !== pubModal) return;
-            const r = pubModal.getBoundingClientRect();
-            const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
-            if (!inside) pubModal.close();
-        });
-
-        // Runs however it closes (X, backdrop, Esc key)
-        pubModal.addEventListener('close', () => {
-            document.body.classList.remove('modal-open');
-        });
-
-        pubForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (await sendForm(pubForm, pubBtn, pubStatus, 'Send it')) {
-                pubForm.reset();
-                setStatus(pubStatus, 'thank uuuuuuuu 🍻', 'success');
-                setTimeout(() => pubModal.close(), 1800);
-            }
-        });
-    </script>
 
 </body>
 
