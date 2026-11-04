@@ -16,6 +16,12 @@
             box-sizing: border-box;
         }
 
+        /* ---------- Photos (unchanged, plus z-index so they tuck behind the panels) ---------- */
+        img[class^="Pic-"] {
+            z-index: 0;
+            pointer-events: none;
+        }
+
         .Pic-1 /* Vic and Caitlin at Henry wedding */ {
             position: absolute;
             top: -20px;
@@ -25,7 +31,6 @@
             height: auto;
             border-radius: 8px;
             transform: rotate(-190deg);
-            
         }
 
         .Pic-2 /* Vic with tomato sauce */ {
@@ -103,7 +108,7 @@
             max-width: 30%;
             width: 250px;
             height: auto;
-            border-radius: 8px; 
+            border-radius: 8px;
         }
 
         .Pic-9 /* Caitlin being weird */ {
@@ -114,7 +119,7 @@
             max-width: 30%;
             width: 250px;
             height: auto;
-            border-radius: 8px; 
+            border-radius: 8px;
         }
 
         .Pic-10 /* Vic unimpressed */ {
@@ -126,12 +131,13 @@
             width: 200px;
             height: auto;
             border-radius: 8px;
-            
         }
 
+        /* ---------- Base (same as RSVP page) ---------- */
         html {
             -webkit-text-size-adjust: 100%;
             text-size-adjust: 100%;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -146,24 +152,28 @@
                 linear-gradient(-45deg, #f496ba 25%, transparent 25%),
                 linear-gradient(45deg, transparent 75%, #f496ba 75%),
                 linear-gradient(-45deg, transparent 75%, #f496ba 75%);
-
             background-size: 50px 50px;
             background-position: 0 0, 50px 0, 50px -50px, 0px 50px;
             background-color: #dc2128;
         }
 
         main {
+            position: relative;
+            z-index: 1;
             max-width: 500px;
             margin: 50px auto;
             padding: 20px;
+        }
+
+        .panel {
+            background-color: #fce8ed;
+            padding: 5px 20px 20px;
             border-radius: 8px;
+            margin: 15px;
         }
 
-        div {
-            padding: 20px;
-        }
-
-        h1 {
+        h1,
+        h2 {
             font-family: 'Ranchers', cursive;
             text-align: center;
             color: #dc2128;
@@ -171,190 +181,230 @@
             line-height: 1.15;
         }
 
-        .event-description {
+        h1 {
+            font-family: 'Fascinate Inline', 'Ranchers', cursive;
+            font-weight: 400;
+            font-size: clamp(2.4rem, 11vw, 3.4rem);
+            letter-spacing: 1px;
+            margin: 18px 0 6px;
+        }
+
+        h2 {
+            margin: 16px 0 10px;
+        }
+
+        .intro {
             text-align: center;
-            background-color: #fce8ed;
-            padding: 5px 20px 5px 20px;
-            border-radius: 8px;
-            margin: 15px;
         }
 
-        .event-description p {
+        .intro p {
             line-height: 1.5;
+            margin: 6px 0;
         }
 
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
+        .tagline {
+            font-family: 'Slackey', cursive;
+            color: #dc2128;
         }
 
-        .RSVP-form {
-            margin-top: 15px;
-            background-color: #fce8ed;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 15px;
+        /* ---------- Treasure map ---------- */
+        .map {
+            margin: 0;
         }
 
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            margin-top: 10px;
-        }
-
-        button {
-            margin-top: 20px;
-            padding: 10px;
-            min-height: 44px;
-            font-size: 16px;
-            background-color: #dc2128;
-            color: #fff;
-            border: 1px solid #fff;
-            border-radius: 4px;
-            cursor: pointer;
+        .map svg {
+            display: block;
             width: 100%;
-            touch-action: manipulation;
+            height: auto;
+        }
+
+        .map figcaption {
+            text-align: center;
+            font-size: 14px;
+            font-style: italic;
+            margin-top: 6px;
+        }
+
+        .marker {
+            cursor: pointer;
             -webkit-tap-highlight-color: transparent;
-            transition: background-color 0.15s, transform 0.15s;
         }
 
-        button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
+        .marker .ring {
+            fill: #fff;
+            stroke: #dc2128;
+            stroke-width: 2.5;
+            transition: fill 0.15s;
         }
 
-        /* Hover effect only on devices that actually hover (stops "sticky" hover on phones) */
+        .marker text {
+            font-family: 'Ranchers', cursive;
+            font-size: 15px;
+            fill: #dc2128;
+            text-anchor: middle;
+            dominant-baseline: central;
+        }
+
         @media (hover: hover) {
-            button:hover:not(:disabled) {
-                background-color: #f496ba;
-                transform: scale(1.05);
+            .marker:hover .ring {
+                fill: #f496ba;
             }
         }
 
-        /* Tap feedback for touch screens */
-        button:active:not(:disabled) {
-            background-color: #f496ba;
+        .marker:focus {
+            outline: none;
         }
 
-        button:focus-visible,
-        input:focus-visible,
-        select:focus-visible,
-        textarea:focus-visible {
+        .marker:focus-visible .ring {
+            stroke: #000;
+            stroke-width: 3.5;
+        }
+
+        .marker.is-now .ring {
+            fill: #dc2128;
+        }
+
+        .marker.is-now text {
+            fill: #fff;
+        }
+
+        /* ---------- Holes ---------- */
+        .holes {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hole {
+            display: grid;
+            grid-template-columns: 52px 1fr auto;
+            grid-template-areas:
+                "num name time"
+                "num meta meta";
+            column-gap: 12px;
+            align-items: baseline;
+            padding: 12px 6px;
+            border-bottom: 2px dashed #f496ba;
+            border-radius: 6px;
+            scroll-margin-top: 16px;
+            transition: background-color 0.5s;
+        }
+
+        .hole:last-child {
+            border-bottom: 0;
+        }
+
+        .hole-num {
+            grid-area: num;
+            align-self: center;
+            display: grid;
+            place-items: center;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: #dc2128;
+            color: #fff;
+            font-family: 'Ranchers', cursive;
+            font-size: 24px;
+        }
+
+        .hole-name {
+            grid-area: name;
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .hole-time {
+            grid-area: time;
+            font-family: 'Slackey', cursive;
+            color: #dc2128;
+            font-size: 18px;
+            white-space: nowrap;
+        }
+
+        .hole-meta {
+            grid-area: meta;
+            font-size: 15px;
+        }
+
+        .hole-meta a {
+            display: inline-block;
+            min-height: 44px;
+            line-height: 44px;
+            color: #dc2128;
+            font-weight: bold;
+            text-underline-offset: 3px;
+        }
+
+        .hole-meta a:focus-visible {
             outline: 3px solid #dc2128;
             outline-offset: 2px;
         }
 
-        input,
-        select,
-        textarea {
-            margin-top: 5px;
-            padding: 8px;
-            font-size: 16px; /* 16px+ prevents iOS zooming in on focus */
-            width: 100%;
-            min-height: 44px;
-            border: 1px solid #999;
-            border-radius: 4px;
-            background-color: #fff;
-            color: #000;
-        }
-
-        .rsvp-heading {
-            text-align: center;
-            font-family: 'Ranchers', cursive;
-            color: #dc2128;
-            letter-spacing: 1px;
-        }
-
-        .form-status {
-            text-align: center;
+        .badge {
+            display: inline-block;
+            margin-left: 6px;
+            padding: 1px 8px;
+            border-radius: 999px;
+            background: #f496ba;
+            font-size: 12px;
             font-weight: bold;
-            margin: 14px 0 0;
-            min-height: 1.2em;
+            vertical-align: 2px;
         }
 
-        .form-status.success {
-            color: #1a7f37;
-        }
-
-        .form-status.error {
+        .hole.is-bonus .hole-num {
+            background: #fff;
             color: #dc2128;
+            border: 2px dashed #dc2128;
         }
 
-        textarea {
-            font-family: inherit;
-            resize: vertical;
+        .hole.is-now {
+            background: #fff;
         }
 
-        /* ---------- Pub suggestion modal ---------- */
-        .pub-modal {
-            width: min(92vw, 440px);
-            max-height: 90vh;
-            padding: 24px 20px 20px;
-            border: 3px solid #dc2128;
-            border-radius: 8px;
-            background-color: #fce8ed;
-            color: #000;
-            overflow-y: auto;
+        .hole.flash {
+            background: #f496ba;
         }
 
-        .pub-modal::backdrop {
-            background: rgba(0, 0, 0, 0.55);
-        }
-
-        .pub-modal[open] {
-            animation: modal-in 0.2s ease-out;
-        }
-
-        @keyframes modal-in {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .pub-modal form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .pub-modal .rsvp-heading {
-            margin: 0 32px 4px;
-        }
-
-        .modal-intro {
-            text-align: center;
-            margin: 0 0 4px;
-            line-height: 1.4;
-        }
-
-        /* Close button overrides the general button styles */
-        .pub-modal .modal-close {
-            position: absolute;
-            top: 6px;
-            right: 6px;
-            width: 44px;
-            min-height: 44px;
+        /* ---------- How to play ---------- */
+        .rules ol {
             margin: 0;
             padding: 0;
-            font-size: 28px;
-            line-height: 1;
-            background: transparent;
+            list-style: none;
+            counter-reset: rule;
+        }
+
+        .rules li {
+            counter-increment: rule;
+            position: relative;
+            padding: 0 0 14px 40px;
+            line-height: 1.5;
+        }
+
+        .rules li::before {
+            content: counter(rule);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            border: 2px solid #dc2128;
             color: #dc2128;
-            border: none;
+            font-family: 'Ranchers', cursive;
+            font-size: 15px;
         }
 
-        @media (hover: hover) {
-            .pub-modal .modal-close:hover {
-                background: transparent;
-                transform: none;
-                color: #000;
-            }
-        }
-
-        body.modal-open {
-            overflow: hidden;
+        .look-out {
+            margin: 6px 0 0;
+            padding: 12px 14px;
+            border: 2px dashed #dc2128;
+            border-radius: 8px;
+            background: #fff;
+            text-align: center;
+            line-height: 1.5;
         }
 
         /* ---------- Mobile ---------- */
@@ -373,111 +423,258 @@
                 padding-right: calc(12px + env(safe-area-inset-right, 0px));
             }
 
-            h1 {
-                font-size: clamp(1.6rem, 8vw, 2.2rem);
-                letter-spacing: 1px;
-                margin: 16px 0 8px;
+            .panel {
+                margin: 15px 4px;
+                padding: 4px 14px 16px;
             }
 
-            .rsvp-heading {
+            .intro p {
+                font-size: 15px;
+            }
+
+            h2 {
                 font-size: clamp(1.3rem, 6.5vw, 1.6rem);
-                margin-top: 0;
+                letter-spacing: 1px;
             }
 
-            .event-description {
-                padding: 4px 20px;
+            .hole {
+                grid-template-columns: 44px 1fr auto;
+                column-gap: 10px;
             }
 
-            .event-description p {
-                font-size: 15px;
-            }
-
-            .nav-buttons {
-                flex-direction: column;
-                gap: 0;
-            }
-
-            .nav-buttons button {
-                margin-top: 10px;
-            }
-
-            .RSVP-form {
-                padding: 16px;
-            }
-
-            label {
-                margin-top: 14px;
-                font-weight: bold;
-                font-size: 15px;
-            }
-
-            form button[type="submit"] {
-                margin-top: 24px;
-                font-size: 18px;
-                padding: 14px;
-            }
-
-            /* Modal slides up from the bottom like a native sheet */
-            .pub-modal {
-                width: 100%;
-                max-width: 100%;
-                max-height: 88vh;
-                margin: auto 0 0;
-                border-width: 3px 0 0;
-                border-radius: 16px 16px 0 0;
-                padding: 22px 16px calc(20px + env(safe-area-inset-bottom, 0px));
-            }
-
-            @keyframes modal-in {
-                from { transform: translateY(100%); }
-                to { transform: translateY(0); }
+            .hole-num {
+                width: 40px;
+                height: 40px;
+                font-size: 21px;
             }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            button {
+            html {
+                scroll-behavior: auto;
+            }
+
+            .hole,
+            .marker .ring {
                 transition: none;
-            }
-
-            .pub-modal[open] {
-                animation: none;
-            }
-
-            button:hover:not(:disabled) {
-                transform: none;
             }
         }
     </style>
 </head>
 
-<body><img src="https://raw.githubusercontent.com/caitskinz/Birthday/refs/heads/main/Viclin1.webp" class="Pic-1" alt="Caitli and vic at henry wedding">
-    <img src="https://raw.githubusercontent.com/caitskinz/Birthday/refs/heads/main/Viclin2.webp" class="Pic-2" alt="Vic with tomato sauce">
-    <img src="https://raw.githubusercontent.com/caitskinz/Birthday/refs/heads/main/Viclin3.webp" class="Pic-3" alt="Medieval Maidens">
-    <img src="https://raw.githubusercontent.com/caitskinz/Birthday/refs/heads/main/Viclin4.webp" class="Pic-4" alt="Girlies at Rogue">
-    <img src="https://raw.githubusercontent.com/caitskinz/Birthday/refs/heads/main/Viclin5.webp" class="Pic-5" alt="Caitlin at Maddy's house">
-    <img src="https://raw.githubusercontent.com/caitskinz/Birthday/refs/heads/main/Viclin6.webp" class="Pic-6" alt="Gals drinking wine">
-    <img src="https://raw.githubusercontent.com/caitskinz/Birthday/refs/heads/main/Viclin7.webp" class="Pic-7" alt="Caitlin and bull">
-    <img src="https://raw.githubusercontent.com/caitskinz/Birthday/refs/heads/main/Viclin8.webp" class="Pic-8" alt="Princess Victoria">
-    <img src="https://raw.githubusercontent.com/caitskinz/Birthday/refs/heads/main/Viclin9.webp" class="Pic-9" alt="Caitlin being weird">
-    <img src="https://raw.githubusercontent.com/caitskinz/Birthday/refs/heads/main/Viclin10.webp" class="Pic-10" alt="Vic unimpressed">
+<body>
+
     <main>
-        <div class="event-description">
-            <h1>What is pub golf?</h1>
-            <p>It's like golf except with alcohol instead of balls.</p>
-            <p><b>HOW DO YOU PLAY?</b><br>
-                Each pub is a "hole" and has a "par".<br>
-                Par is the number of sips you need to finish the drink.<br>
-                Each sip you take is a point, you need to get the lowest score. Like golf (duh)<br>
-            There will be penalites.</p>
-            </p>
-            
-        </div>
-        <div class="RSVP-form">
-            <h2 class="rsvp-heading">COURSE GOES HERE</h2>
-           
-        </div>
+        <section class="panel intro">
+            <h1>The Course</h1>
+            <p class="tagline">Saturday 14 November</p>
+            <p>Tee off 3pm at Southern Cross.<br><b>Come in your finest golfing attire.</b><br>Be there or be square!!</p>
+        </section>
+
+        <section class="panel" aria-labelledby="map-heading">
+            <h2 id="map-heading">The Course</h2>
+            <figure class="map">
+                <svg viewBox="0 0 360 440" role="img" aria-labelledby="map-title">
+                    <title id="map-title">Treasure map of the nine pubs around Te Aro, joined by a dotted trail from the Southern Cross to an X at the Welsh Dragon</title>
+                    <defs>
+                        <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+                            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="7" result="n" />
+                            <feDisplacementMap in="SourceGraphic" in2="n" scale="9" />
+                        </filter>
+                        <radialGradient id="burn" cx="50%" cy="50%" r="72%">
+                            <stop offset="60%" stop-color="#fffafb" />
+                            <stop offset="100%" stop-color="#f7c3d5" />
+                        </radialGradient>
+                        <pattern id="checks" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                            <rect width="16" height="16" fill="#f496ba" />
+                            <rect width="8" height="8" fill="#f9bdd2" />
+                            <rect x="8" y="8" width="8" height="8" fill="#f9bdd2" />
+                        </pattern>
+                        <mask id="trail-reveal">
+                            <path id="trail-mask" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" />
+                        </mask>
+                    </defs>
+
+                    <!-- Paper -->
+                    <rect x="10" y="10" width="340" height="420" rx="10" fill="url(#burn)" stroke="#dc2128" stroke-width="2" filter="url(#rough)" />
+
+                    <!-- Harbour -->
+                    <path d="M24 28 H336 V78 C300 92 270 70 240 84 C205 100 175 76 140 88 C105 100 70 80 24 92 Z" fill="url(#checks)" opacity="0.75" filter="url(#rough)" />
+                    <text x="180" y="62" text-anchor="middle" font-family="Slackey, cursive" font-size="13" fill="#8a1a20">Te Whanganui-a-Tara</text>
+
+                    <!-- Streets (schematic, not to scale) -->
+                    <g stroke="#f496ba" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.55">
+                        <path d="M90 105 L90 390" />
+                        <path d="M40 360 L215 360" />
+                        <path d="M90 175 L222 175" />
+                        <path d="M222 100 L222 410" />
+                        <path d="M222 140 L330 140" />
+                        <path d="M330 100 L330 300" />
+                    </g>
+                    <g font-family="Arial, sans-serif" font-style="italic" font-size="10.5" fill="#8a1a20">
+                        <text x="80" y="330" transform="rotate(-90 80 330)">Cuba St</text>
+                        <text x="44" y="378">Abel Smith St</text>
+                        <text x="104" y="193">Dixon St</text>
+                        <text x="212" y="330" transform="rotate(-90 212 330)">Taranaki St</text>
+                        <text x="262" y="166">Courtenay Pl</text>
+                        <text x="345" y="270" transform="rotate(-90 345 270)">Kent Tce</text>
+                    </g>
+
+                    <!-- Trail -->
+                    <path id="trail" fill="none" stroke="#dc2128" stroke-width="3" stroke-dasharray="1 7" stroke-linecap="round" mask="url(#trail-reveal)" />
+
+                    <!-- X marks the spot -->
+                    <g stroke="#dc2128" stroke-width="5" stroke-linecap="round">
+                        <line x1="328" y1="104" x2="344" y2="120" />
+                        <line x1="344" y1="104" x2="328" y2="120" />
+                    </g>
+
+                    <!-- Compass rose -->
+                    <g transform="translate(168 290)">
+                        <circle r="20" fill="none" stroke="#000" stroke-width="1.2" />
+                        <path d="M0 -26 L5 0 L0 26 L-5 0 Z" fill="#dc2128" />
+                        <path d="M-26 0 L0 4 L26 0 L0 -4 Z" fill="#000" opacity="0.6" />
+                        <text y="-30" text-anchor="middle" font-family="Ranchers, cursive" font-size="13" fill="#000">N</text>
+                    </g>
+
+                    <!-- Cartouche -->
+                    <g transform="translate(272 396) rotate(-4)">
+                        <rect x="-64" y="-17" width="128" height="32" rx="6" fill="#dc2128" />
+                        <text text-anchor="middle" y="5" font-family="Slackey, cursive" font-size="14" fill="#fff">Pubs go here</text>
+                    </g>
+
+                    <g id="markers"></g>
+                </svg>
+                <figcaption>Tap a number to jump to that hole. Map not to scale (obviously).</figcaption>
+            </figure>
+        </section>
+
+        <section class="panel" aria-labelledby="holes-heading">
+            <h2 id="holes-heading">The Holes</h2>
+            <ol class="holes" id="holes"></ol>
+        </section>
+
+        <section class="panel rules" aria-labelledby="rules-heading">
+            <h2 id="rules-heading">What is pub golf?</h2>
+            <p class="intro" style="text-align:center;margin-top:0;">It's like golf except with alcohol instead of balls.</p>
+            <h2>How do you play?</h2>
+            <ol>
+                <li>Each pub is a "hole" and has a "par". Your scorecard tells you the drink and par for each one.</li>
+                <li>Par is the number of sips you need to finish the drink.</li>
+                <li>Each sip you take is a point. You need to get the lowest score. Like golf (duh).</li>
+                <li>Write your score on your card before you leave each pub.</li>
+                <li>There will be penalties!!</li>
+                <li>Can't finish a drink? Take par +3 and move on (we've all been there).</li>
+                <li>Everyone gets one birdie. Swap any drink for non-alcoholic and score par.</li>
+            </ol>
+            <p class="look-out">Arriving late?? Come find us!!</p>
+        </section>
     </main>
 
+    <script>
+        (function () {
+            // x/y are positions on the drawn map (viewBox 360×440), not real coordinates.
+            var holes = [
+                { name: "Southern Cross", time: "3pm", street: "Abel Smith St", q: "Southern Cross Garden Bar, Abel Smith Street, Wellington", x: 140, y: 360 },
+                { name: "Hotel Bristol", time: "4pm", street: "Cuba St", q: "Hotel Bristol, Cuba Street, Wellington", x: 90, y: 280 },
+                { name: "JJ Murphy's", time: "5pm", street: "Cuba St", q: "JJ Murphy's, Cuba Street, Wellington", x: 90, y: 230 },
+                { name: "Eva Beva", time: "6pm", street: "Dixon St", q: "Eva Beva, Dixon Street, Wellington", x: 152, y: 175 },
+                { name: "Dirty Little Secret", time: "7pm", street: "Rooftop", q: "Dirty Little Secret, Taranaki Street, Wellington", x: 244, y: 158 },
+                { name: "Gibbons Hotel", time: "8pm", street: "Down we go", q: "Gibbons Hotel, 52 Taranaki Street, Wellington", x: 246, y: 212 },
+                { name: "Four Kings", time: "9pm", street: "It goes even lower!", q: "Four Kings, Dixon Street, Wellington", x: 196, y: 205 },
+                { name: "Lulu", time: "10pm", street: "Courtenay Pl", q: "Lulu Bar, 31 Courtenay Place, Wellington", x: 284, y: 140 },
+                { name: "Welsh Dragon", time: "11pm", street: "Kent Tce", q: "Welsh Dragon Bar, Kent Terrace, Wellington", x: 308, y: 112, bonus: true }
+            ];
+
+            // On the night (NZ time), highlight the hole we should be at.
+            function nowHoleIndex() {
+                try {
+                    var parts = new Intl.DateTimeFormat("en-NZ", {
+                        timeZone: "Pacific/Auckland", year: "numeric", month: "numeric",
+                        day: "numeric", hour: "numeric", hourCycle: "h23"
+                    }).formatToParts(new Date());
+                    var get = function (t) {
+                        var p = parts.find(function (x) { return x.type === t; });
+                        return p ? parseInt(p.value, 10) : NaN;
+                    };
+                    if (get("year") !== 2026 || get("month") !== 11 || get("day") !== 14) return -1;
+                    var h = get("hour");
+                    return (h >= 15 && h <= 23) ? h - 15 : -1;
+                } catch (e) { return -1; }
+            }
+            var now = nowHoleIndex();
+
+            // Hole list
+            var list = document.getElementById("holes");
+            holes.forEach(function (h, i) {
+                var li = document.createElement("li");
+                li.className = "hole" + (h.bonus ? " is-bonus" : "") + (i === now ? " is-now" : "");
+                li.id = "hole-" + (i + 1);
+                var badge = i === now ? '<span class="badge">we\u2019re here now</span>'
+                    : (h.bonus ? '<span class="badge">if we make it</span>' : "");
+                li.innerHTML =
+                    '<span class="hole-num" aria-hidden="true">' + (i + 1) + '</span>' +
+                    '<span class="hole-name">' + h.name + badge + '</span>' +
+                    '<span class="hole-time">' + h.time + '</span>' +
+                    '<span class="hole-meta">' + h.street + '. <a href="https://www.google.com/maps/search/?api=1&query=' +
+                    encodeURIComponent(h.q) + '" target="_blank" rel="noopener">Open in Maps</a></span>';
+                list.appendChild(li);
+            });
+
+            // Smooth trail through every hole
+            function smoothPath(pts) {
+                var d = "M" + pts[0].x + " " + pts[0].y;
+                for (var i = 0; i < pts.length - 1; i++) {
+                    var p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
+                    d += " C" + (p1.x + (p2.x - p0.x) / 6).toFixed(1) + " " + (p1.y + (p2.y - p0.y) / 6).toFixed(1) +
+                        " " + (p2.x - (p3.x - p1.x) / 6).toFixed(1) + " " + (p2.y - (p3.y - p1.y) / 6).toFixed(1) +
+                        " " + p2.x + " " + p2.y;
+                }
+                return d;
+            }
+            var d = smoothPath(holes);
+            var mask = document.getElementById("trail-mask");
+            document.getElementById("trail").setAttribute("d", d);
+            mask.setAttribute("d", d);
+
+            // The trail draws itself once when the page loads
+            var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            if (!reduce && mask.getTotalLength) {
+                var len = mask.getTotalLength();
+                mask.style.strokeDasharray = len;
+                mask.style.strokeDashoffset = len;
+                mask.getBoundingClientRect();
+                mask.style.transition = "stroke-dashoffset 2.6s ease-in-out 0.3s";
+                requestAnimationFrame(function () { mask.style.strokeDashoffset = 0; });
+            }
+
+            // Map markers
+            var ns = "http://www.w3.org/2000/svg";
+            var group = document.getElementById("markers");
+            holes.forEach(function (h, i) {
+                var a = document.createElementNS(ns, "a");
+                a.setAttribute("href", "#hole-" + (i + 1));
+                a.setAttribute("class", "marker" + (i === now ? " is-now" : ""));
+                a.setAttribute("aria-label", "Hole " + (i + 1) + ", " + h.name + ", " + h.time);
+                var hit = document.createElementNS(ns, "circle");
+                hit.setAttribute("cx", h.x); hit.setAttribute("cy", h.y); hit.setAttribute("r", 22);
+                hit.setAttribute("fill", "transparent");
+                var ring = document.createElementNS(ns, "circle");
+                ring.setAttribute("class", "ring");
+                ring.setAttribute("cx", h.x); ring.setAttribute("cy", h.y); ring.setAttribute("r", 13);
+                var t = document.createElementNS(ns, "text");
+                t.setAttribute("x", h.x); t.setAttribute("y", h.y + 1);
+                t.textContent = i + 1;
+                a.appendChild(hit); a.appendChild(ring); a.appendChild(t);
+                a.addEventListener("click", function () {
+                    var el = document.getElementById("hole-" + (i + 1));
+                    el.classList.add("flash");
+                    setTimeout(function () { el.classList.remove("flash"); }, 1400);
+                });
+                group.appendChild(a);
+            });
+        })();
+    </script>
 </body>
 
 </html>
