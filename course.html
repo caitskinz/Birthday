@@ -398,6 +398,45 @@
             line-height: 1.5;
         }
 
+        /* ---------- Back to RSVP (matches RSVP page buttons) ---------- */
+        .back-wrap {
+            margin: 15px;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            background-color: #dc2128;
+            color: #fff;
+            border: 1px solid #fff;
+            border-radius: 4px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.15s, transform 0.15s;
+        }
+
+        @media (hover: hover) {
+            .back-button:hover {
+                background-color: #f496ba;
+                transform: scale(1.05);
+            }
+        }
+
+        .back-button:active {
+            background-color: #f496ba;
+        }
+
+        .back-button:focus-visible {
+            outline: 3px solid #fff;
+            outline-offset: 2px;
+        }
+
         /* ---------- Mobile ---------- */
         @media (max-width: 600px) {
             body {
@@ -412,6 +451,10 @@
                 padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
                 padding-left: calc(12px + env(safe-area-inset-left, 0px));
                 padding-right: calc(12px + env(safe-area-inset-right, 0px));
+            }
+
+            .back-wrap {
+                margin: 15px 4px;
             }
 
             .panel {
@@ -446,8 +489,13 @@
             }
 
             .hole,
-            .marker .ring {
+            .marker .ring,
+            .back-button {
                 transition: none;
+            }
+
+            .back-button:hover {
+                transform: none;
             }
         }
     </style>
@@ -560,6 +608,10 @@
             </ol>
             <p class="look-out">Arriving late?? Come find us!!</p>
         </section>
+
+        <nav class="back-wrap" aria-label="Back to RSVP">
+            <a class="back-button" href="index.html">Back to RSVP</a>
+        </nav>
     </main>
 
     <script>
@@ -570,7 +622,7 @@
                 { name: "Hotel Bristol", time: "4pm", street: "Cuba St.", q: "Hotel Bristol, Cuba Street, Wellington", x: 90, y: 280 },
                 { name: "JJ Murphy's", time: "5pm", street: "Cuba St.", q: "JJ Murphy's, Cuba Street, Wellington", x: 90, y: 230 },
                 { name: "Eva Beva", time: "6pm", street: "Dixon St.", q: "Eva Beva, Dixon Street, Wellington", x: 152, y: 175 },
-                { name: "Dirty Little Secret", time: "7pm", street: "Da roof.", q: "Dirty Little Secret, Taranaki Street, Wellington", x: 244, y: 158 },
+                { name: "Dirty Little Secret", time: "7pm", street: "On da roof.", q: "Dirty Little Secret, Taranaki Street, Wellington", x: 244, y: 158 },
                 { name: "Gibbons Hotel", time: "8pm", street: "Down we go.", q: "Gibbons Hotel, 52 Taranaki Street, Wellington", x: 246, y: 212 },
                 { name: "Four Kings", time: "9pm", street: "Into the dungeon.", q: "Four Kings, Dixon Street, Wellington", x: 196, y: 205 },
                 { name: "Lulu", time: "10pm", street: "Courtenay Pl.", q: "Lulu Bar, 31 Courtenay Place, Wellington", x: 284, y: 140 },
