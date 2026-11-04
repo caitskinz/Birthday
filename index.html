@@ -102,6 +102,25 @@
             transition: background-color 0.15s, transform 0.15s;
         }
 
+        .course {
+            margin-top: 20px;
+            padding: 10px;
+            min-height: 44px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            background-color: #ffb6c1;
+            color: #dc2128;
+            border: 1px solid #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.15s, transform 0.15s;
+        }
+
         button:disabled {
             background-color: #ccc;
             cursor: not-allowed;
@@ -346,7 +365,7 @@
                 <p>Plz rsvp so we can warn Courtenay Place</>
         </div>
         <div class="nav-buttons">
-            <button disabled>⛳️ Course Coming Soon ⛳️</button>
+            <a href="#course.html" aria-label="Course" class="course">⛳️ See the course! ⛳️</a>
             <button type="button" id="open-pub-modal" aria-haspopup="dialog">🍻 Suggest a Pub 🍻</button>
         </div>
         <div class="RSVP-form">
