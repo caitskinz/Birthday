@@ -371,30 +371,21 @@
             margin: 0;
             padding: 0;
             list-style: none;
-            counter-reset: rule;
         }
 
         .rules li {
-            counter-increment: rule;
             position: relative;
             padding: 0 0 14px 40px;
             line-height: 1.5;
         }
 
         .rules li::before {
-            content: counter(rule);
+            content: "⛳";
             position: absolute;
             left: 0;
             top: 0;
-            width: 28px;
-            height: 28px;
-            display: grid;
-            place-items: center;
-            border-radius: 50%;
-            border: 2px solid #dc2128;
-            color: #dc2128;
-            font-family: 'Ranchers', cursive;
-            font-size: 15px;
+            font-size: 22px;
+            line-height: 1.2;
         }
 
         .look-out {
@@ -558,7 +549,7 @@
             <h2 id="rules-heading">What is pub golf?</h2>
             <p class="intro" style="text-align:center;margin-top:0;">It's like golf except with alcohol instead of balls.</p>
             <h2>How do you play?</h2>
-            <ol>
+            <ol type="a">
                 <li>Each pub is a "hole" and has a "par". Your scorecard tells you the drink and par for each one.</li>
                 <li>Par is the number of sips you need to finish the drink.</li>
                 <li>Each sip you take is a point. You need to get the lowest score. Like golf (duh).</li>
@@ -575,15 +566,15 @@
         (function () {
             // x/y are positions on the drawn map (viewBox 360×440), not real coordinates.
             var holes = [
-                { name: "Southern Cross", time: "3pm", street: "Abel Smith St", q: "Southern Cross Garden Bar, Abel Smith Street, Wellington", x: 140, y: 360 },
-                { name: "Hotel Bristol", time: "4pm", street: "Cuba St", q: "Hotel Bristol, Cuba Street, Wellington", x: 90, y: 280 },
-                { name: "JJ Murphy's", time: "5pm", street: "Cuba St", q: "JJ Murphy's, Cuba Street, Wellington", x: 90, y: 230 },
-                { name: "Eva Beva", time: "6pm", street: "Dixon St", q: "Eva Beva, Dixon Street, Wellington", x: 152, y: 175 },
-                { name: "Dirty Little Secret", time: "7pm", street: "Rooftop", q: "Dirty Little Secret, Taranaki Street, Wellington", x: 244, y: 158 },
-                { name: "Gibbons Hotel", time: "8pm", street: "Down we go", q: "Gibbons Hotel, 52 Taranaki Street, Wellington", x: 246, y: 212 },
-                { name: "Four Kings", time: "9pm", street: "It goes even lower!", q: "Four Kings, Dixon Street, Wellington", x: 196, y: 205 },
-                { name: "Lulu", time: "10pm", street: "Courtenay Pl", q: "Lulu Bar, 31 Courtenay Place, Wellington", x: 284, y: 140 },
-                { name: "Welsh Dragon", time: "11pm", street: "Kent Tce", q: "Welsh Dragon Bar, Kent Terrace, Wellington", x: 308, y: 112, bonus: true }
+                { name: "Southern Cross", time: "3pm", street: "Abel Smith St.", q: "Southern Cross Garden Bar, Abel Smith Street, Wellington", x: 140, y: 360 },
+                { name: "Hotel Bristol", time: "4pm", street: "Cuba St.", q: "Hotel Bristol, Cuba Street, Wellington", x: 90, y: 280 },
+                { name: "JJ Murphy's", time: "5pm", street: "Cuba St.", q: "JJ Murphy's, Cuba Street, Wellington", x: 90, y: 230 },
+                { name: "Eva Beva", time: "6pm", street: "Dixon St.", q: "Eva Beva, Dixon Street, Wellington", x: 152, y: 175 },
+                { name: "Dirty Little Secret", time: "7pm", street: "Da roof.", q: "Dirty Little Secret, Taranaki Street, Wellington", x: 244, y: 158 },
+                { name: "Gibbons Hotel", time: "8pm", street: "Down we go.", q: "Gibbons Hotel, 52 Taranaki Street, Wellington", x: 246, y: 212 },
+                { name: "Four Kings", time: "9pm", street: "Into the dungeon.", q: "Four Kings, Dixon Street, Wellington", x: 196, y: 205 },
+                { name: "Lulu", time: "10pm", street: "Courtenay Pl.", q: "Lulu Bar, 31 Courtenay Place, Wellington", x: 284, y: 140 },
+                { name: "Welsh Dragon", time: "11pm", street: "Kent Tce.", q: "Welsh Dragon Bar, Kent Terrace, Wellington", x: 308, y: 112, bonus: true }
             ];
 
             // On the night (NZ time), highlight the hole we should be at.
@@ -616,7 +607,7 @@
                     '<span class="hole-num" aria-hidden="true">' + (i + 1) + '</span>' +
                     '<span class="hole-name">' + h.name + badge + '</span>' +
                     '<span class="hole-time">' + h.time + '</span>' +
-                    '<span class="hole-meta">' + h.street + '. <a href="https://www.google.com/maps/search/?api=1&query=' +
+                    '<span class="hole-meta">' + h.street + '  <a href="https://www.google.com/maps/search/?api=1&query=' +
                     encodeURIComponent(h.q) + '" target="_blank" rel="noopener">Open in Maps</a></span>';
                 list.appendChild(li);
             });
