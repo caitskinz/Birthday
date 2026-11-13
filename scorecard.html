@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Caitlin and Vic's Birthday - Score Card</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Ranchers&family=Slackey&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image:
+                linear-gradient(45deg, #f496ba 25%, transparent 25%),
+                linear-gradient(-45deg, #f496ba 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #f496ba 75%),
+                linear-gradient(-45deg, transparent 75%, #f496ba 75%);
+            background-size: 50px 50px;
+            background-position: 0 0, 50px 0, 50px -50px, 0px 50px;
+            background-color: #dc2128;
+        }
+
+        main {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .panel {
+            background-color: #fce8ed;
+            padding: 5px 20px 20px;
+            border-radius: 8px;
+            margin: 15px;
+        }
+
+        h1,
+        h2 {
+            font-family: 'Ranchers', cursive;
+            text-align: center;
+            color: #dc2128;
+            letter-spacing: 2px;
+            line-height: 1.15;
+        }
+
+        h1 {
+            font-family: 'Fascinate Inline', 'Ranchers', cursive;
+            font-weight: 400;
+            font-size: clamp(2.4rem, 11vw, 3.4rem);
+            letter-spacing: 1px;
+            margin: 18px 0 6px;
+        }
+
+        .intro {
+            text-align: center;
+            line-height: 1.5;
+            margin: 6px 0 4px;
+        }
+
+        label,
+        .field-label {
+            display: block;
+            margin-top: 14px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            margin-top: 5px;
+            padding: 8px;
+            font-size: 16px;
+            width: 100%;
+            min-height: 44px;
+            border: 1px solid #999;
+            border-radius: 4px;
+            background-color: #fff;
+            color: #000;
+        }
+
+        button {
+            font-family: inherit;
+            font-size: 16px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            cursor: pointer;
+        }
+
+        button:focus-visible,
+        input:focus-visible,
+        a:focus-visible {
+            outline: 3px solid #dc2128;
+            outline-offset: 2px;
+        }
+
+        /* Segmented choice (drink type, Gibbons drink) */
+        .segmented {
+            display: flex;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .segmented button {
+            flex: 1;
+            min-height: 44px;
+            padding: 8px 6px;
+            border: 2px solid #dc2128;
+            border-radius: 6px;
+            background: #fff;
+            color: #dc2128;
+            font-weight: bold;
+            font-size: 15px;
+            line-height: 1.2;
+        }
+
+        .segmented button[aria-pressed="true"] {
+            background: #dc2128;
+            color: #fff;
+        }
+
+        /* Sticky total */
+        .total-bar {
+            position: sticky;
+            top: env(safe-area-inset-top, 0px);
+            z-index: 5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin: 15px;
+            padding: 10px 16px;
+            background: #dc2128;
+            color: #fff;
+            border: 2px solid #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        .total-bar .who {
+            font-weight: bold;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .total-bar .score {
+            font-family: 'Slackey', cursive;
+            font-size: 20px;
+            white-space: nowrap;
+        }
+
+        .total-bar .vs {
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+            opacity: 0.9;
+            margin-left: 4px;
+        }
+
+        /* Holes */
+        .hole {
+            background: #fce8ed;
+            border-radius: 8px;
+            margin: 12px 15px;
+            overflow: hidden;
+        }
+
+        .hole-head {
+            display: grid;
+            grid-template-columns: 44px 1fr auto;
+            gap: 12px;
+            align-items: center;
+            width: 100%;
+            min-height: 64px;
+            padding: 10px 14px;
+            border: 0;
+            background: transparent;
+            text-align: left;
+            color: #000;
+        }
+
+        .hole-num {
+            display: grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #dc2128;
+            color: #fff;
+            font-family: 'Ranchers', cursive;
+            font-size: 21px;
+        }
+
+        .hole.is-bonus .hole-num {
+            background: #fff;
+            color: #dc2128;
+            border: 2px dashed #dc2128;
+        }
+
+        .hole-title {
+            display: block;
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .hole-sub {
+            display: block;
+            font-size: 14px;
+            margin-top: 2px;
+        }
+
+        .hole-score {
+            font-family: 'Slackey', cursive;
+            color: #dc2128;
+            font-size: 22px;
+            min-width: 2ch;
+            text-align: right;
+        }
+
+        .hole-score.empty {
+            color: #c9a3b0;
+        }
+
+        .hole-body {
+            padding: 0 16px 16px;
+            border-top: 2px dashed #f496ba;
+        }
+
+        .hole-body[hidden] {
+            display: none;
+        }
+
+        .drink-line {
+            margin: 12px 0 0;
+            line-height: 1.4;
+        }
+
+        .drink-line strong {
+            color: #dc2128;
+        }
+
+        /* Steppers */
+        .row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 8px 0;
+        }
+
+        .row + .row {
+            border-top: 1px solid #f7c3d5;
+        }
+
+        .row-label {
+            line-height: 1.3;
+        }
+
+        .row-label small {
+            display: block;
+            color: #8a1a20;
+            font-weight: bold;
+        }
+
+        .stepper {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .stepper button {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #dc2128;
+            background: #fff;
+            color: #dc2128;
+            font-size: 22px;
+            font-weight: bold;
+            line-height: 1;
+            padding: 0;
+        }
+
+        .stepper button:active {
+            background: #f496ba;
+        }
+
+        .stepper button:disabled {
+            border-color: #ddd;
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .stepper output {
+            min-width: 2ch;
+            text-align: center;
+            font-family: 'Slackey', cursive;
+            font-size: 20px;
+        }
+
+        .sips {
+            margin-top: 8px;
+            padding: 6px 12px;
+            background: #fff;
+            border-radius: 8px;
+        }
+
+        .sips .row-label {
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .section-label {
+            margin: 16px 0 2px;
+            font-family: 'Ranchers', cursive;
+            color: #dc2128;
+            letter-spacing: 1px;
+            font-size: 17px;
+        }
+
+        .toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            width: 100%;
+            min-height: 48px;
+            margin-top: 10px;
+            padding: 8px 12px;
+            border: 2px solid #dc2128;
+            border-radius: 6px;
+            background: #fff;
+            color: #000;
+            text-align: left;
+        }
+
+        .toggle[aria-pressed="true"] {
+            background: #dc2128;
+            color: #fff;
+        }
+
+        .toggle .pts {
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .birdie-note {
+            font-size: 14px;
+            margin: 6px 0 0;
+        }
+
+        /* Buttons along the bottom */
+        .nav-buttons {
+            margin: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            background-color: #dc2128;
+            color: #fff;
+            border: 1px solid #fff;
+            border-radius: 4px;
+            width: 100%;
+            transition: background-color 0.15s, transform 0.15s;
+        }
+
+        .btn.quiet {
+            background: #fce8ed;
+            color: #dc2128;
+            border-color: #dc2128;
+        }
+
+        @media (hover: hover) {
+            .btn:hover {
+                background-color: #f496ba;
+                color: #fff;
+                transform: scale(1.05);
+            }
+        }
+
+        .btn:active {
+            background-color: #f496ba;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                background-size: 36px 36px;
+                background-position: 0 0, 36px 0, 36px -36px, 0px 36px;
+            }
+
+            main {
+                margin: 0 auto;
+                padding: 16px 12px;
+                padding-top: calc(16px + env(safe-area-inset-top, 0px));
+                padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+                padding-left: calc(12px + env(safe-area-inset-left, 0px));
+                padding-right: calc(12px + env(safe-area-inset-right, 0px));
+            }
+
+            .panel,
+            .total-bar,
+            .hole,
+            .nav-buttons {
+                margin-left: 4px;
+                margin-right: 4px;
+            }
+
+            .panel {
+                padding: 4px 14px 16px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .btn {
+                transition: none;
+            }
+
+            .btn:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <section class="panel">
+            <h1>Score Card</h1>
+            <p class="intro">Tap a hole to open it, count your sips, and own up to your penalties. Lowest score wins.</p>
+
+            <label for="player">Your name</label>
+            <input type="text" id="player" autocomplete="given-name" placeholder="e.g. Golf Man">
+
+            <span class="field-label" id="type-label">Your drinks</span>
+            <div class="segmented" role="group" aria-labelledby="type-label" id="type-choice">
+                <button type="button" data-type="regular">Regular</button>
+                <button type="button" data-type="gf">Gluten free</button>
+                <button type="button" data-type="sober">Sober</button>
+            </div>
+        </section>
+
+        <div class="total-bar" aria-live="polite">
+            <span class="who" id="who">Your total</span>
+            <span class="score"><span id="total">0</span><span class="vs" id="vs"></span></span>
+        </div>
+
+        <div id="holes"></div>
+
+        <nav class="nav-buttons" aria-label="Pages">
+            <a class="btn" href="course.html">Back to the course</a>
+            <a class="btn" href="index.html">Back to RSVP</a>
+            <button type="button" class="btn quiet" id="reset">Clear my score card</button>
+        </nav>
+    </main>
+
+    <script>
+        (function () {
+            // Drinks for each hole. Each list holds [drink, par] options.
+            // Gluten free falls back to regular where it isn't listed.
+            var HOLES = [
+                { pub: "Southern Cross", time: "3pm",
+                  regular: [["Aperol Spritz", 3]],
+                  sober: [["Mocktail", 3]] },
+                { pub: "Hotel Bristol", time: "4pm",
+                  regular: [["Happy hour drink", 3]],
+                  sober: [["Lemonade", 3]] },
+                { pub: "JJ Murphy's", time: "5pm",
+                  regular: [["Cider or beer", 2]],
+                  gf: [["Cider", 2]],
+                  sober: [["Zero Percent Beer", 2]] },
+                { pub: "Garage Project", time: "6pm",
+                  regular: [["Alcoholic ginger beer", 2]],
+                  sober: [["Regular Ginger Beer", 2]] },
+                { pub: "Dirty Little Secret", time: "7pm",
+                  regular: [["Pals", 3]],
+                  sober: [["Coke", 3]] },
+                { pub: "Gibbons Hotel", time: "8pm",
+                  regular: [["Guinness", 4], ["Vodka Red Bull", 2]],
+                  gf: [["Vodka Red Bull", 2]],
+                  sober: [["Zero Percent Beer", 4], ["Red Bull", 2]] },
+                { pub: "Four Kings", time: "9pm",
+                  regular: [["Shot of your choice", 1]],
+                  sober: [["Coke and Raspberry", 1]] },
+                { pub: "Lulu", time: "10pm",
+                  regular: [["Lemon lime bitters with vodka", 2]],
+                  sober: [["Lemon lime bitters", 2]] },
+                { pub: "Welsh Dragon", time: "11pm", bonus: true,
+                  regular: [["Cider or beer", 3]],
+                  gf: [["Cider", 3]],
+                  sober: [["Coke", 3]] }
+            ];
+
+            var PENALTIES = [
+                { key: "vorteke", label: "Vorteke a drink", pts: -10 },
+                { key: "shot", label: "Extra shot (not on the list)", pts: -5 },
+                { key: "spit", label: "Spat out your drink", pts: 3 },
+                { key: "spill", label: "Spilled yours or someone else's drink", pts: 3 },
+                { key: "fall", label: "Fell over", pts: 3 },
+                { key: "vomit", label: "Threw up", pts: 5 },
+                { key: "cheat", label: "Caught cheating", pts: 10 }
+            ];
+            var UNFINISHED_PTS = 4;
+            var STORE_KEY = "pubgolf-scorecard-2026";
+
+            // ---------- State ----------
+            function blankHole() {
+                var pen = {};
+                PENALTIES.forEach(function (p) { pen[p.key] = 0; });
+                return { choice: 0, sips: 0, touched: false, unfinished: false, pen: pen };
+            }
+            function blankState() {
+                return { name: "", type: "regular", birdie: null, open: null, holes: HOLES.map(blankHole) };
+            }
+            function load() {
+                try {
+                    var raw = localStorage.getItem(STORE_KEY);
+                    if (!raw) return blankState();
+                    var s = JSON.parse(raw);
+                    if (!s || !Array.isArray(s.holes) || s.holes.length !== HOLES.length) return blankState();
+                    s.holes.forEach(function (h) {
+                        PENALTIES.forEach(function (p) { if (typeof h.pen[p.key] !== "number") h.pen[p.key] = 0; });
+                    });
+                    return s;
+                } catch (e) { return blankState(); }
+            }
+            function save() {
+                try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) { }
+            }
+            var state = load();
+
+            // ---------- Scoring ----------
+            function options(i) {
+                var h = HOLES[i];
+                return h[state.type] || h.regular;
+            }
+            function current(i) {
+                var opts = options(i);
+                var c = Math.min(state.holes[i].choice, opts.length - 1);
+                return { drink: opts[c][0], par: opts[c][1], index: c, count: opts.length };
+            }
+            function holeScore(i) {
+                var h = state.holes[i];
+                if (!h.touched && state.birdie !== i) return null;
+                var par = current(i).par;
+                var score = state.birdie === i ? par : h.sips;
+                if (h.unfinished) score += UNFINISHED_PTS;
+                PENALTIES.forEach(function (p) { score += h.pen[p.key] * p.pts; });
+                return { score: score, par: par };
+            }
+
+            // ---------- Which hole to open first ----------
+            function nowHoleIndex() {
+                try {
+                    var parts = new Intl.DateTimeFormat("en-NZ", {
+                        timeZone: "Pacific/Auckland", year: "numeric", month: "numeric",
+                        day: "numeric", hour: "numeric", hourCycle: "h23"
+                    }).formatToParts(new Date());
+                    var get = function (t) {
+                        var p = parts.find(function (x) { return x.type === t; });
+                        return p ? parseInt(p.value, 10) : NaN;
+                    };
+                    if (get("year") !== 2026 || get("month") !== 11 || get("day") !== 14) return -1;
+                    var hr = get("hour");
+                    return (hr >= 15 && hr <= 23) ? hr - 15 : -1;
+                } catch (e) { return -1; }
+            }
+            if (state.open === null) {
+                var n = nowHoleIndex();
+                state.open = n >= 0 ? n : 0;
+            }
+
+            // ---------- Rendering ----------
+            var holesEl = document.getElementById("holes");
+
+            function stepper(id, value, min, label) {
+                return '<div class="stepper">' +
+                    '<button type="button" data-act="dec" data-id="' + id + '" aria-label="Take one off ' + label + '"' + (value <= min ? " disabled" : "") + '>&minus;</button>' +
+                    '<output aria-live="polite">' + value + '</output>' +
+                    '<button type="button" data-act="inc" data-id="' + id + '" aria-label="Add one to ' + label + '">+</button>' +
+                    '</div>';
+            }
+
+            function renderHole(i) {
+                var h = state.holes[i];
+                var cur = current(i);
+                var sc = holeScore(i);
+                var isOpen = state.open === i;
+                var birdieHere = state.birdie === i;
+                var birdieUsedElsewhere = state.birdie !== null && !birdieHere;
+
+                var html =
+                    '<button type="button" class="hole-head" data-act="toggle-open" data-hole="' + i + '" aria-expanded="' + isOpen + '" aria-controls="hole-body-' + i + '">' +
+                    '<span class="hole-num" aria-hidden="true">' + (i + 1) + '</span>' +
+                    '<span><span class="hole-title">' + HOLES[i].pub + '</span>' +
+                    '<span class="hole-sub">' + HOLES[i].time + ' · ' + cur.drink + ' · par ' + cur.par + (HOLES[i].bonus ? ' · if we make it' : '') + '</span></span>' +
+                    '<span class="hole-score' + (sc ? '' : ' empty') + '" aria-label="' + (sc ? 'Score ' + sc.score : 'Not played yet') + '">' + (sc ? sc.score : '–') + '</span>' +
+                    '</button>';
+
+                html += '<div class="hole-body" id="hole-body-' + i + '"' + (isOpen ? '' : ' hidden') + '>';
+
+                if (cur.count > 1) {
+                    html += '<span class="field-label">Pick your drink</span><div class="segmented" role="group">';
+                    options(i).forEach(function (o, c) {
+                        html += '<button type="button" data-act="choice" data-hole="' + i + '" data-choice="' + c + '" aria-pressed="' + (c === cur.index) + '">' + o[0] + ' (par ' + o[1] + ')</button>';
+                    });
+                    html += '</div>';
+                } else {
+                    html += '<p class="drink-line"><strong>' + cur.drink + '</strong>, par ' + cur.par + '</p>';
+                }
+
+                html += '<div class="sips"><div class="row"><span class="row-label">Sips' + (birdieHere ? '<small>Birdie used, scored at par</small>' : '') + '</span>' +
+                    (birdieHere ? '<span class="stepper"><output>' + cur.par + '</output></span>' : stepper(i + ':sips', h.sips, 0, 'sips')) +
+                    '</div></div>';
+
+                html += '<button type="button" class="toggle" data-act="unfinished" data-hole="' + i + '" aria-pressed="' + h.unfinished + '">' +
+                    '<span>Didn\'t finish my drink</span><span class="pts">+' + UNFINISHED_PTS + '</span></button>';
+
+                html += '<p class="section-label">Penalties and bonuses</p>';
+                PENALTIES.forEach(function (p) {
+                    var pts = (p.pts > 0 ? '+' : '−') + Math.abs(p.pts) + (p.key === 'shot' ? ' each' : '');
+                    html += '<div class="row"><span class="row-label">' + p.label + '<small>' + pts + '</small></span>' +
+                        stepper(i + ':' + p.key, h.pen[p.key], 0, p.label) + '</div>';
+                });
+
+                html += '<button type="button" class="toggle" data-act="birdie" data-hole="' + i + '" aria-pressed="' + birdieHere + '"' + (birdieUsedElsewhere ? ' disabled' : '') + '>' +
+                    '<span>' + (birdieHere ? 'Birdie used here' : 'Use my birdie on this hole') + '</span><span class="pts">= par</span></button>';
+                html += '<p class="birdie-note">' + (birdieUsedElsewhere
+                    ? 'You\'ve used your birdie on hole ' + (state.birdie + 1) + '.'
+                    : 'One per person: swap your drink for non-alcoholic and score par.') + '</p>';
+
+                html += '</div>';
+                return html;
+            }
+
+            function render() {
+                document.querySelectorAll("#type-choice button").forEach(function (b) {
+                    b.setAttribute("aria-pressed", b.dataset.type === state.type);
+                });
+                document.getElementById("player").value = state.name;
+
+                holesEl.innerHTML = HOLES.map(function (h, i) {
+                    return '<section class="hole' + (h.bonus ? ' is-bonus' : '') + '" id="hole-' + (i + 1) + '">' + renderHole(i) + '</section>';
+                }).join("");
+
+                var total = 0, vsPar = 0, played = 0;
+                HOLES.forEach(function (h, i) {
+                    var sc = holeScore(i);
+                    if (sc) { total += sc.score; vsPar += sc.score - sc.par; played++; }
+                });
+                document.getElementById("total").textContent = total;
+                document.getElementById("vs").textContent = played
+                    ? (vsPar === 0 ? 'level par' : (vsPar > 0 ? '+' + vsPar : '−' + Math.abs(vsPar)) + ' vs par')
+                    : '';
+                document.getElementById("who").textContent = state.name ? state.name + "'s total" : "Your total";
+            }
+
+            // ---------- Events ----------
+            document.getElementById("player").addEventListener("input", function (e) {
+                state.name = e.target.value.slice(0, 40);
+                document.getElementById("who").textContent = state.name ? state.name + "'s total" : "Your total";
+                save();
+            });
+
+            document.getElementById("type-choice").addEventListener("click", function (e) {
+                var b = e.target.closest("button[data-type]");
+                if (!b) return;
+                state.type = b.dataset.type;
+                state.holes.forEach(function (h) { h.choice = 0; });
+                save(); render();
+            });
+
+            holesEl.addEventListener("click", function (e) {
+                var b = e.target.closest("button[data-act]");
+                if (!b || b.disabled) return;
+                var act = b.dataset.act;
+                var i;
+
+                if (act === "toggle-open") {
+                    i = +b.dataset.hole;
+                    state.open = state.open === i ? null : i;
+                    save(); render();
+                    if (state.open === i) {
+                        var el = document.getElementById("hole-" + (i + 1));
+                        if (el.getBoundingClientRect().top < 80) el.scrollIntoView({ block: "start" });
+                    }
+                    document.querySelector('#hole-' + (i + 1) + ' .hole-head').focus();
+                    return;
+                }
+
+                if (act === "inc" || act === "dec") {
+                    var parts = b.dataset.id.split(":");
+                    i = +parts[0];
+                    var key = parts[1];
+                    var h = state.holes[i];
+                    var delta = act === "inc" ? 1 : -1;
+                    if (key === "sips") h.sips = Math.max(0, h.sips + delta);
+                    else h.pen[key] = Math.max(0, h.pen[key] + delta);
+                    h.touched = true;
+                } else if (act === "unfinished") {
+                    i = +b.dataset.hole;
+                    state.holes[i].unfinished = !state.holes[i].unfinished;
+                    state.holes[i].touched = true;
+                } else if (act === "choice") {
+                    i = +b.dataset.hole;
+                    state.holes[i].choice = +b.dataset.choice;
+                } else if (act === "birdie") {
+                    i = +b.dataset.hole;
+                    state.birdie = state.birdie === i ? null : i;
+                }
+
+                save(); render();
+                // Keep focus on the same control after re-render
+                var sel = b.dataset.id
+                    ? 'button[data-act="' + act + '"][data-id="' + b.dataset.id + '"]'
+                    : 'button[data-act="' + act + '"][data-hole="' + b.dataset.hole + '"]' + (b.dataset.choice ? '[data-choice="' + b.dataset.choice + '"]' : '');
+                var again = holesEl.querySelector(sel);
+                if (again && !again.disabled) again.focus({ preventScroll: true });
+            });
+
+            document.getElementById("reset").addEventListener("click", function () {
+                if (!confirm("Clear your whole score card? This can't be undone.")) return;
+                state = blankState();
+                state.open = 0;
+                save(); render();
+                window.scrollTo(0, 0);
+            });
+
+            render();
+        })();
+    </script>
+</body>
+
+</html>
